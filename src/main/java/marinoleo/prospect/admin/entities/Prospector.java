@@ -1,46 +1,45 @@
 package marinoleo.prospect.admin.entities;
 
 import jakarta.persistence.*;
-import marinoleo.prospect.admin.entities.Countries;
 
 @Entity
 @Table (name="Prospector")
 public class Prospector {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column (name = "mail")
+    @Column(name = "mail")
     private String mail;
-    @Column (name = "name")
+    @Column(name = "name")
     private String name;
-    @Column (name = "lastName")
+    @Column(name = "lastName")
     private String lastName;
-    @Column (name = "linkedin")
+    @Column(name = "linkedin")
     private String linkedin;
-    @Column (name = "phone")
+    @Column(name = "phone")
     private String phone;
-    @Column (name = "country")
-    private Countries country;
+    @Column(name = "country")
+    private String country;
     //Examen aprobado:1,Examen no aprobado:0, por defecto 0.
-    @Column (name = "exam")
+    @Column(name = "exam")
     private Boolean exam;
     //Habilitado:1, Deshabilitado por admin:0, por defecto 1.
-    @Column (name = "enabled")
+    @Column(name = "enabled")
     private Boolean enabled;
-    @Column (name = "levelId")
-    private Long levelId;
+    @Column(name = "level")
+    private Integer level;
 
-    public Prospector(String mail, String name, String lastName, String linkedin, String phone, Countries country, Boolean exam, Boolean enabled, Long levelId) {
+    public Prospector(String mail, String name, String lastName, String linkedin, String phone, String country) {
         this.mail = mail;
         this.name = name;
         this.lastName = lastName;
         this.linkedin = linkedin;
         this.phone = phone;
         this.country = country;
-        this.exam = exam;
-        this.enabled = enabled;
-        this.levelId = levelId;
+    }
+
+    public Prospector() {
     }
 
     public String getMail() {
@@ -83,11 +82,11 @@ public class Prospector {
         this.phone = phone;
     }
 
-    public Countries getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(Countries country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
@@ -107,11 +106,27 @@ public class Prospector {
         this.enabled = enabled;
     }
 
-    public Long getLevelId() {
-        return levelId;
+    public Integer getLevel() {
+        return level;
     }
 
-    public void setLevelId(Long levelId) {
-        this.levelId = levelId;
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    @Override
+    public String toString() {
+        return "Prospector{" +
+                "id=" + id +
+                ", mail='" + mail + '\'' +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", linkedin='" + linkedin + '\'' +
+                ", phone='" + phone + '\'' +
+                ", country='" + country + '\'' +
+                ", exam=" + exam +
+                ", enabled=" + enabled +
+                ", level=" + level +
+                '}';
     }
 }

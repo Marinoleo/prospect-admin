@@ -17,13 +17,17 @@ public class ProspectorController {
 
     @PostMapping ("/singin")
     public Prospector singIn(@RequestBody Prospector prospector) {
+        System.out.println(prospector.toString());
         prospector.setEnabled(true);
         prospector.setExam(false);
+        prospector.setLevel(0);
+        System.out.println(prospector.toString());
         return prospectorRespository.save(prospector);
     }
 
     @GetMapping ("/findall")
     public List<Prospector> findAll() {
+        System.out.println(prospectorRespository.findAll().toString());
         return prospectorRespository.findAll();
     }
 
