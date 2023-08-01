@@ -1,6 +1,6 @@
 package marinoleo.prospect.admin.controller;
 
-import marinoleo.prospect.admin.entities.Prospector;
+import marinoleo.prospect.admin.entities.prospectors.Prospector;
 import marinoleo.prospect.admin.repository.ProspectorRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,17 +17,14 @@ public class ProspectorController {
 
     @PostMapping ("/singin")
     public Prospector singIn(@RequestBody Prospector prospector) {
-        System.out.println(prospector.toString());
         prospector.setEnabled(true);
         prospector.setExam(false);
         prospector.setLevel(0);
-        System.out.println(prospector.toString());
         return prospectorRespository.save(prospector);
     }
 
     @GetMapping ("/findall")
     public List<Prospector> findAll() {
-        System.out.println(prospectorRespository.findAll().toString());
         return prospectorRespository.findAll();
     }
 

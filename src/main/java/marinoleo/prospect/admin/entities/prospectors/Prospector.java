@@ -1,4 +1,4 @@
-package marinoleo.prospect.admin.entities;
+package marinoleo.prospect.admin.entities.prospectors;
 
 import jakarta.persistence.*;
 
