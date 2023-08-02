@@ -3,7 +3,7 @@ package marinoleo.prospect.admin.entities.prospectors;
 import jakarta.persistence.*;
 
 @Entity
-@Table (name="Prospector")
+@Table(name = "Prospector")
 public class Prospector {
 
     @Id
@@ -112,6 +112,10 @@ public class Prospector {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override

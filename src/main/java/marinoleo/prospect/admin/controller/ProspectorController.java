@@ -3,10 +3,8 @@ package marinoleo.prospect.admin.controller;
 import marinoleo.prospect.admin.entities.prospectors.Prospector;
 import marinoleo.prospect.admin.repository.ProspectorRespository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,18 +13,32 @@ public class ProspectorController {
     @Autowired
     private ProspectorRespository prospectorRespository;
 
-    @PostMapping ("/singin")
-    public Prospector singIn(@RequestBody Prospector prospector) {
+    @PostMapping ("/prospect/singin")
+    public ResponseEntity<Prospector> singIn(@RequestBody Prospector prospector) {
         prospector.setEnabled(true);
         prospector.setExam(false);
         prospector.setLevel(0);
-        return prospectorRespository.save(prospector);
+        prospectorRespository.save(prospector);
+        return ResponseEntity.ok(prospector);
     }
 
-    @GetMapping ("/findall")
-    public List<Prospector> findAll() {
-        return prospectorRespository.findAll();
+    @GetMapping ("/prospect/findall")
+    public ResponseEntity<List<Prospector>> findAll() {
+        return ResponseEntity.ok(prospectorRespository.findAll());
     }
+
+    @PutMapping ("/prospect/update")
+    public ResponseEntity<Prospector> update(@RequestBody Prospector prospector) {
+        if(prospector.getId()==null){
+            return ResponseEntity.badRequest().build();
+        }if(!prospectorRespository.existsById(prospector.getId())) {
+            return ResponseEntity.notFound().build();
+        }else {
+            prospectorRespository.save(prospector);
+            return ResponseEntity.ok(prospector);
+    }
+    }
+
 
 
 }
