@@ -26,5 +26,9 @@ public class MeetingController {
         return meetingRepository.save(meeting);
     }
 
+    /*@PutMapping("/meet/done/{id}")
+    public Meeting meetDone (@PathVariable Long id, @RequestBody Meeting newMeeting) {
+
+    }*/
 
 }

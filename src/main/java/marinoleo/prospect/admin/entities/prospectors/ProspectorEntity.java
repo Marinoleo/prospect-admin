@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Prospector")
-public class Prospector {
+public class ProspectorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class Prospector {
     @Column(name = "level")
     private Integer level;
 
-    public Prospector(String mail, String name, String lastName, String linkedin, String phone, String country) {
+    public ProspectorEntity(String mail, String name, String lastName, String linkedin, String phone, String country) {
         this.mail = mail;
         this.name = name;
         this.lastName = lastName;
@@ -39,7 +39,7 @@ public class Prospector {
         this.country = country;
     }
 
-    public Prospector() {
+    public ProspectorEntity() {
     }
 
     public String getMail() {
@@ -133,4 +133,7 @@ public class Prospector {
                 ", level=" + level +
                 '}';
     }
+
+
+
 }

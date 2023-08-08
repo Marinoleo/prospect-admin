@@ -1,20 +1,23 @@
 package marinoleo.prospect.admin.controller;
-
-import marinoleo.prospect.admin.entities.prospectors.Prospector;
+import marinoleo.prospect.admin.model.ProspectorDTO;
+import marinoleo.prospect.admin.service.ProspectorService;
+import marinoleo.prospect.admin.entities.prospectors.ProspectorEntity;
 import marinoleo.prospect.admin.repository.ProspectorRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ProspectorController {
     @Autowired
-    private ProspectorRespository prospectorRespository;
-
+    private ProspectorRespository prospectorRespository; //matar esto
+    @Autowired
+    private ProspectorService prospectorService;
     @PostMapping ("/prospect/singin")
-    public ResponseEntity<Prospector> singIn(@RequestBody Prospector prospector) {
+    public ResponseEntity<ProspectorEntity> singIn(@RequestBody ProspectorEntity prospector) {
         prospector.setEnabled(true);
         prospector.setExam(false);
         prospector.setLevel(0);
@@ -23,22 +26,34 @@ public class ProspectorController {
     }
 
     @GetMapping ("/prospect/findall")
-    public ResponseEntity<List<Prospector>> findAll() {
+    public ResponseEntity<List<ProspectorEntity>> findAll() {
         return ResponseEntity.ok(prospectorRespository.findAll());
     }
 
-    @PutMapping ("/prospect/update")
-    public ResponseEntity<Prospector> update(@RequestBody Prospector prospector) {
-        if(prospector.getId()==null){
-            return ResponseEntity.badRequest().build();
-        }if(!prospectorRespository.existsById(prospector.getId())) {
-            return ResponseEntity.notFound().build();
-        }else {
-            prospectorRespository.save(prospector);
-            return ResponseEntity.ok(prospector);
-    }
-    }
+    @PutMapping ("/prospect/update/{id}")
+    public ResponseEntity<ProspectorDTO> update(@RequestBody ProspectorDTO prospector, @PathVariable Long id) {
+        Optional<ProspectorEntity> prospectorId;
 
+        if(id==null){
+            return ResponseEntity.badRequest().build();
+        }else {
+            return ResponseEntity.ok(prospectorService.updateProspect(id, prospector));
+            }
+        }
+
+    @DeleteMapping ("/prospect/delete/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+
+        if(id==null){
+            return ResponseEntity.badRequest().build();
+        }if(!prospectorRespository.existsById(id))
+            return ResponseEntity.noContent().build();
+        else {
+            prospectorRespository.deleteById(id);
+            return ResponseEntity.ok("Prospector id: " + id + " ha sido eliminado");
+        }
+
+    }
 
 
 }
