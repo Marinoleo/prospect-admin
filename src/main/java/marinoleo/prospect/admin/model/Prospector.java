@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProspectorDTO {
+public class Prospector {
     private Long id;
     private String mail;
     private String name;
@@ -13,9 +13,8 @@ public class ProspectorDTO {
     private String linkedin;
     private String phone;
     private String country;
+    private Double balance;
     private Boolean exam;
     private Boolean enabled;
-    private Integer level;
-
-
+    private Long levelId;
 }

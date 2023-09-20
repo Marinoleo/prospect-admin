@@ -1,59 +1,58 @@
 package marinoleo.prospect.admin.controller;
-import marinoleo.prospect.admin.model.ProspectorDTO;
+
+import marinoleo.prospect.admin.model.Prospector;
 import marinoleo.prospect.admin.service.ProspectorService;
-import marinoleo.prospect.admin.entities.prospectors.ProspectorEntity;
-import marinoleo.prospect.admin.repository.ProspectorRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class ProspectorController {
     @Autowired
-    private ProspectorRespository prospectorRespository; //matar esto
-    @Autowired
     private ProspectorService prospectorService;
-    @PostMapping ("/prospect/singin")
-    public ResponseEntity<ProspectorEntity> singIn(@RequestBody ProspectorEntity prospector) {
+
+    @PostMapping("/prospect/singin")
+    public ResponseEntity<Prospector> singIn(@RequestBody Prospector prospector) {
         prospector.setEnabled(true);
         prospector.setExam(false);
-        prospector.setLevel(0);
-        prospectorRespository.save(prospector);
-        return ResponseEntity.ok(prospector);
+        prospector.setLevelId(0L);
+        return ResponseEntity.ok(prospectorService.saveProspector(prospector));
     }
 
-    @GetMapping ("/prospect/findall")
-    public ResponseEntity<List<ProspectorEntity>> findAll() {
-        return ResponseEntity.ok(prospectorRespository.findAll());
+    @GetMapping("/prospect/findall")
+    public ResponseEntity<List<Prospector>> findAll() {
+        return ResponseEntity.ok(prospectorService.findAll());
     }
 
-    @PutMapping ("/prospect/update/{id}")
-    public ResponseEntity<ProspectorDTO> update(@RequestBody ProspectorDTO prospector, @PathVariable Long id) {
-        Optional<ProspectorEntity> prospectorId;
+    @GetMapping("/prospect/findbyid/{id}")
+    public ResponseEntity<Prospector> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(prospectorService.findById(id));
+    }
 
-        if(id==null){
+    @PutMapping("/prospect/update/{id}")
+    public ResponseEntity<Prospector> update(@RequestBody Prospector prospector, @PathVariable Long id) {
+        if (id == null) {
             return ResponseEntity.badRequest().build();
-        }else {
+        } else {
             return ResponseEntity.ok(prospectorService.updateProspect(id, prospector));
-            }
         }
-
-    @DeleteMapping ("/prospect/delete/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable Long id) {
-
-        if(id==null){
-            return ResponseEntity.badRequest().build();
-        }if(!prospectorRespository.existsById(id))
-            return ResponseEntity.noContent().build();
-        else {
-            prospectorRespository.deleteById(id);
-            return ResponseEntity.ok("Prospector id: " + id + " ha sido eliminado");
-        }
-
     }
 
+    @DeleteMapping("/prospect/delete/{id}")
+    public ResponseEntity deleteById(@PathVariable Long id) {
+        if (id == null) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            prospectorService.deleteProspectorById(id);
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+//    @GetMapping("/prospect/getbalance/{id}")
+//    public ResponseEntity<Prospector> getBalance(@PathVariable Long id) {
+//        return ResponseEntity.ok(prospectorService.calculateBalance(id));
+//    }
 
 }
